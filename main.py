@@ -9,14 +9,17 @@ driver.get("https://www.youtube.com/")
 
 
 # driver.close() closes the current tab
-print(driver.title)
 
+print(driver.title)
+#print(driver.page_source)
 searchBar = driver.find_element_by_id("search-input")
 searchBar.click()
 
 search = driver.find_element_by_name("search_query")
 
-search.send_keys("TUYU - I'm getting on the bus to the other world, see ya! MV")
+word = input("")
+
+search.send_keys(word)
 search.send_keys(Keys.RETURN)  # enter button
 
 time.sleep(10)
