@@ -17,7 +17,7 @@ searchBar.click()
 
 search = driver.find_element_by_name("search_query")
 
-word = input("")
+word = input("Put In A Word")
 
 search.send_keys(word)
 search.send_keys(Keys.RETURN)  # enter button
