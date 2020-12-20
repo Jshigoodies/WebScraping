@@ -34,9 +34,12 @@ time.sleep(3)
 
 # I don't know why there is a huge amount of space in between in the command console
 
-main = driver.find_elements_by_id("video-title")
-for i in main:
-    print(i.text)
+main = driver.find_elements_by_class_name("style-scope ytd-video-renderer")
+# print(len(main))
+length = len(main)
+print(length, "Videos")
+for i in range(length):
+    print(i, main[i].text + "\n")
 
 '''
 # I'll figure this out later
