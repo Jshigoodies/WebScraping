@@ -25,21 +25,25 @@ search = driver.find_element_by_name("search_query")
 word = input("Put In A Word: ")
 
 search.send_keys(word)
-search.send_keys(Keys.RETURN)  # enter button
-
+# search.send_keys(Keys.RETURN)  # enter button
+driver.find_element_by_id("search-icon-legacy").click()
 
 # So it takes a while for a page to refresh to a new page, so i will add a pause time
 
 time.sleep(3)
 
-# I don't know why there is a huge amount of space in between in the command console
-
 main = driver.find_elements_by_class_name("style-scope ytd-video-renderer")
 # print(len(main))
 length = len(main)
-print(length, "Videos")
+print(length, "Videos \n")
+
 for i in range(length):
-    print(i, main[i].text + "\n")
+    print(i + 1, "\n" + main[i].text + "\n")
+
+heading = input("Copy and Paste the Title Here: ")
+
+link = driver.find_element_by_partial_link_text(heading)
+link.click()
 
 '''
 # I'll figure this out later
