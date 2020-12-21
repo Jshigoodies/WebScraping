@@ -11,7 +11,6 @@ import pyautogui
 
 PATH = "Driver\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
-
 driver.get("https://www.youtube.com/")
 
 
@@ -58,6 +57,7 @@ while condition:
         print("Not possible, Try Again \n")
         condition = True
 
+driver.maximize_window()
 
 '''
 # I'll figure this out later
