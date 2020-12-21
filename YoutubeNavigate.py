@@ -42,10 +42,22 @@ print(length, "Videos \n")
 for i in range(length):
     print(i + 1, "\n" + main[i].text + "\n")
 
-heading = input("Copy and Paste the Title Here: ")
+# heading = input("Copy and Paste the Title Here: ")
+#
+# link = driver.find_element_by_partial_link_text(heading)
+# link.click()
+condition = True
 
-link = driver.find_element_by_partial_link_text(heading)
-link.click()
+while condition:
+    try:
+        num = input("What number?: ")
+        num = int(num)
+        main[num - 1].click()
+        condition = False
+    except:
+        print("Not possible, Try Again \n")
+        condition = True
+
 
 '''
 # I'll figure this out later
