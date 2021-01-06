@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands, tasks
 import random
 
-token = "NzkxODE1ODM4OTIyNDQwNzI1.X-Up9w.GeRNP1yWfzeBSRj7lpqrzCd7cFw"
+token = "" # WebScraper Application Discord Bot's Token
 
 client = commands.Bot(command_prefix= ".")
 
