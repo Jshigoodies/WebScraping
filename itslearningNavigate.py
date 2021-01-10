@@ -6,32 +6,78 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+# setup
 PATH = "Driver\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
-
-# action chain for logging in
-# actionClick = ActionChains(driver) # I'll use this later
-
 driver.get("https://clearcreek.itslearning.com/")
-print("[Navigator]$", driver.title)
 
-loginButton = driver.find_element_by_id("ctl00_ContentPlaceHolder1_federatedLoginWrapper")
-loginButton.click()
 
-driver.implicitly_wait(5)
+# login
+def start():
+    # action chain for logging in
+    # actionClick = ActionChains(driver) # I'll use this later
+    print("[Navigator]$", driver.title.upper())
+
+    loginButton = driver.find_element_by_id("ctl00_ContentPlaceHolder1_federatedLoginWrapper")
+    loginButton.click()
+
+    driver.implicitly_wait(5)
+
 
 # username
-username = input("[Navigator]$ Please Enter Student Email: ")
-try:
-    userLoginInput = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "i0116")))
-finally:
-    userLoginInput.send_keys(username)
-    userLoginInput.send_keys(Keys.ENTER)
+def userMethod():
+    username = input("[Navigator]$ Please Enter Student ID: ")
+    username = username + "@ccisd.net"
+    try:
+        userLoginInput = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "i0116")))
+    finally:
+        userLoginInput.send_keys(username)
+        userLoginInput.send_keys(Keys.ENTER)
+
+    try:
+        Error = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "usernameError")))
+        print("[Navigator]$ Email Does not Exist")
+        userLoginInput.clear()
+        return True
+    except Exception:
+        return False
+
 
 # password
-password = input("[Navigator]$ Please Enter Password: ")
-try:
-    userLoginInputPassword = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "i0118")))
-finally:
-    userLoginInputPassword.send_keys(password)
-    userLoginInputPassword.send_keys(Keys.ENTER)
+def passWordMethod():
+    password = input("[Navigator]$ Please Enter Password: ")
+    try:
+        userLoginInputPassword = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "i0118")))
+    finally:
+        userLoginInputPassword.send_keys(password)
+        userLoginInputPassword.send_keys(Keys.ENTER)
+
+    try:
+        Error = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "passwordError")))
+        print("[Navigator]$ Password Or Email is Wrong \n[Navigator]$ Restarting...")
+        return True
+    except Exception:
+        return False
+
+
+# I know, this looks stupid, I'll make it better sometime
+loop = True
+loop2 = True
+loop3 = True
+
+start()
+while loop:
+    while loop2:
+        if not userMethod():
+            loop2 = False
+    while loop3:
+        if not passWordMethod():
+            loop3 = False
+        else:
+            driver.back()
+            driver.back()
+            break
+    loop = loop3
+    loop2 = loop3
+
+print("[Navigator]$ Login Successful")
