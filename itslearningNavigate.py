@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 import time
 
 # setup
@@ -20,8 +21,6 @@ def start():
 
     loginButton = driver.find_element_by_id("ctl00_ContentPlaceHolder1_federatedLoginWrapper")
     loginButton.click()
-
-    driver.implicitly_wait(5)
 
 
 # username
@@ -81,3 +80,9 @@ while loop:
     loop2 = loop3
 
 print("[Navigator]$ Login Successful")
+
+# list = driver.find_elements_by_tag_name("span")
+#
+# for x in list:
+#     print(x.text)
+
