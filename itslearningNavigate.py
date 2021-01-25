@@ -81,6 +81,22 @@ while loop:
 
 print("[Navigator]$ Login Successful")
 
+#options
+try:
+    courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
+finally:
+    courses.click()
+
+updates = driver.find_elements_by_tag_name("li")
+
+string = ""
+for x in updates:
+    string = string + x.text + "\n"
+
+print(string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n")) #wow this is stupid
+#options
+
+
 # list = driver.find_elements_by_tag_name("span")
 #
 # for x in list:
