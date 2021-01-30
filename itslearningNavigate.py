@@ -58,7 +58,50 @@ def passWordMethod():
     except Exception:
         return False
 
+#options method
+def options(): # it's basically a list of options that the user can see
+    # options
 
+    updates = driver.find_elements_by_tag_name("li")
+
+    string = ""
+    for x in updates:
+        string = string + x.text + "\n"
+
+    print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n"))  # wow this is stupid
+    # options (i will later maybe put input)
+
+def CDHome():
+    try:
+        home = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
+    finally:
+        home.click()
+
+def CDCourse():
+    # courses
+    try:
+        courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]'))) # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
+    finally:
+        courses.click()
+
+    try:
+        courses2 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/a[2]')))
+    finally:
+        courses2.click()
+    # courses
+
+def CDGroups():
+    try:
+        groups = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]')))
+    finally:
+        groups.click()
+    try:
+        groups2 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]/div/a[2]')))
+    finally:
+        groups2.click()
+
+
+# ______________________________Where the run actually starts__________________________
 # I know, this looks stupid, I'll make it better sometime, it's just dealing with the password and username
 loop = True
 loop2 = True
@@ -81,30 +124,30 @@ while loop:
 
 print("[Navigator]$ Login Successful")
 
-# options (i will later maybe put input)
-try:
-    home = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
-finally:
-    home.click()
+# navigation like command prompt
+while True:
+    command = input("[Navigator]$ ")
+    cmd = command.split(" ")
+    if len(cmd) == 2 and cmd[0] == "cd":
+        if cmd[1] == "Courses":
+            CDCourse()
+            # For all of the CD methods, I should make new commands to navigate through each category. If i don't have time to do all of them, I will at least finish the courses
+        elif cmd[1] == "Home":
+            CDHome()
+        elif cmd[1] == "Groups":
+            CDGroups()
+        else:
+            print(f"\'{cmd[1]}\' cannot be found for the path specified.")
+    elif len(cmd) == 1 and cmd[0] == "list":
+        options()
+    else:
+        print(f"\'{command}\' is not recognized as an internal or external command")
 
-updates = driver.find_elements_by_tag_name("li")
-
-string = ""
-for x in updates:
-    string = string + x.text + "\n"
-
-print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n")) #wow this is stupid
-# options (i will later maybe put input)
 
 
 
-# courses
-driver.implicitly_wait(5)
-courses = driver.find_element(By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')
-courses.click()
-courses2 = driver.find_element(By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/a[2]')
-courses2.click()
-# courses
+
+
 
 
 # list = driver.find_elements_by_tag_name("span")
