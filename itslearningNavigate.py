@@ -140,6 +140,12 @@ while True:
             print(f"\'{cmd[1]}\' cannot be found for the path specified.")
     elif len(cmd) == 1 and cmd[0] == "list":
         options()
+
+    # exit cmd
+    elif len(cmd) == 1 and cmd[0] == "exit":
+        break
+    # exit cmd
+
     else:
         print(f"\'{command}\' is not recognized as an internal or external command")
 
