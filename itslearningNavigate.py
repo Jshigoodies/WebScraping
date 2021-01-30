@@ -59,7 +59,7 @@ def passWordMethod():
         return False
 
 
-# I know, this looks stupid, I'll make it better sometime
+# I know, this looks stupid, I'll make it better sometime, it's just dealing with the password and username
 loop = True
 loop2 = True
 loop3 = True
@@ -81,11 +81,11 @@ while loop:
 
 print("[Navigator]$ Login Successful")
 
-#options
+# options (i will later maybe put input)
 try:
-    courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
+    home = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
 finally:
-    courses.click()
+    home.click()
 
 updates = driver.find_elements_by_tag_name("li")
 
@@ -93,8 +93,18 @@ string = ""
 for x in updates:
     string = string + x.text + "\n"
 
-print(string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n")) #wow this is stupid
-#options
+print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n")) #wow this is stupid
+# options (i will later maybe put input)
+
+
+
+# courses
+driver.implicitly_wait(5)
+courses = driver.find_element(By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')
+courses.click()
+courses2 = driver.find_element(By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/a[2]')
+courses2.click()
+# courses
 
 
 # list = driver.find_elements_by_tag_name("span")
