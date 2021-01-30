@@ -149,12 +149,7 @@ while True:
     else:
         print(f"\'{command}\' is not recognized as an internal or external command")
 
-
-
-
-
-
-
+driver.close()
 
 # list = driver.find_elements_by_tag_name("span")
 #
