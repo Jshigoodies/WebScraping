@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 import time
 
 # setup
-PATH = "Driver\chromedriver.exe"
+PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
 driver.get("https://clearcreek.itslearning.com/")
 
@@ -58,8 +58,9 @@ def passWordMethod():
     except Exception:
         return False
 
-#options method
-def options(): # it's basically a list of options that the user can see
+
+# options method
+def options():  # it's basically a list of options that the user can see
     # options
 
     updates = driver.find_elements_by_tag_name("li")
@@ -71,34 +72,63 @@ def options(): # it's basically a list of options that the user can see
     print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n", "\n"))  # wow this is stupid
     # options (i will later maybe put input)
 
+
 def CDHome():
     try:
         home = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "l-main-menu-lnk")))
     finally:
         home.click()
 
+
 def CDCourse():
     # courses
     try:
-        courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]'))) # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
+        courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH,
+                                                                                 '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))  # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
     finally:
         courses.click()
 
     try:
-        courses2 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/a[2]')))
+        courses2 = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/a[2]')))
     finally:
         courses2.click()
     # courses
 
+    # [Navigator/Courses]$
+    while True:
+        command = input("[Navigator/Courses]$ ")
+        cmd = command.split(" ")
+        if len(cmd) == 1:
+            if cmd[0] == "list":
+                name = driver.find_element_by_id("ctl26_1")  # they are a ctl26_(some number here)
+                name2 = name[0].find_elements_by_tag_name('span')
+                print(name2)
+                # does not work ......
+            elif cmd[0] == "back":
+                break
+        else:
+            print(f"\'{command}\' is not recognized as an internal or external command")
+
+
 def CDGroups():
     try:
-        groups = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]')))
+        groups = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]')))
     finally:
         groups.click()
     try:
-        groups2 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]/div/a[2]')))
+        groups2 = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]/div/a[2]')))
     finally:
         groups2.click()
+
+def CDCalendar():  # this is pointless, i don't even know what the itslearning calandar is for. Obviously not for scheduling.
+    try:
+        calander1 = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[7]')))
+    finally:
+        calander1.click()
 
 
 # ______________________________Where the run actually starts__________________________
@@ -136,6 +166,8 @@ while True:
             CDHome()
         elif cmd[1] == "Groups":
             CDGroups()
+        elif cmd[1] == "Calendar":
+            CDCalendar()
         else:
             print(f"\'{cmd[1]}\' cannot be found for the path specified.")
     elif len(cmd) == 1 and cmd[0] == "list":
@@ -155,4 +187,3 @@ driver.close()
 #
 # for x in list:
 #     print(x.text)
-
