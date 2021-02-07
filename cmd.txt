@@ -1,3 +1,7 @@
 cd <directory>
 list
 exit
+
+/directory
+back
+list

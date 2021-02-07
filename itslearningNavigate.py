@@ -101,12 +101,16 @@ def CDCourse():
         cmd = command.split(" ")
         if len(cmd) == 1:
             if cmd[0] == "list":
-                name = driver.find_element_by_id("ctl26_1")  # they are a ctl26_(some number here)
-                name2 = name[0].find_elements_by_tag_name('span')
-                print(name2)
+                try:
+                    name = driver.find_elements_by_class_name('tablelisting') # they are a ctl26_(some number here)
+                finally:
+                    for i in name:
+                        print(i.text)
                 # does not work ......
             elif cmd[0] == "back":
                 break
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
 
