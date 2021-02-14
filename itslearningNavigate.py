@@ -11,6 +11,7 @@ import time
 PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
 driver.get("https://clearcreek.itslearning.com/")
+actions = ActionChains(driver)
 
 
 # login
@@ -107,7 +108,7 @@ def CDCourse():
                     listCourse = WebDriverWait(driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
                 finally:
-                    listCourse.click() # --------------
+                    listCourse.click()  # --------------
 
                     # updates = driver.find_elements_by_tag_name("li")
                     #
@@ -118,12 +119,16 @@ def CDCourse():
                     # print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n",
                     #                                                           "\n"))  # wow this is stupid
 
-
-
                     i = 1
                     while True:
                         try:
-                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'
+                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
+                                i) + ']'  # finding the specific course element
+
+                            find = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,
+                                                                                                   '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
+                                                                                                       i) + ']')))
+                            actions.move_to_element(find).perform()
 
                             name = WebDriverWait(driver, 5).until(EC.presence_of_element_located(
                                 (By.XPATH, path)))
@@ -134,7 +139,7 @@ def CDCourse():
 
                     # //*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[13] <--- 13 is the number of courses I have
 
-                    listCourse.click() # ---------------
+                    listCourse.click()  # ---------------
 
                 # does not work ......
             elif cmd[0] == "back":
