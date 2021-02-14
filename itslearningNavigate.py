@@ -96,16 +96,34 @@ def CDCourse():
     # courses
 
     # [Navigator/Courses]$
+
     while True:
         command = input("[Navigator/Courses]$ ")
         cmd = command.split(" ")
         if len(cmd) == 1:
             if cmd[0] == "list":
+                string = "Course: "
                 try:
-                    name = driver.find_elements_by_class_name('tablelisting') # they are a ctl26_(some number here)
+                    listCourse = WebDriverWait(driver, 5).until(
+                        EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
                 finally:
-                    for i in name:
-                        print(i.text)
+                    listCourse.click()
+
+                    # updates = driver.find_elements_by_tag_name("li")
+                    #
+                    # string = ""
+                    # for x in updates:
+                    #     string = string + x.text + "\n"
+                    #
+                    # print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n",
+                    #                                                           "\n"))  # wow this is stupid
+
+                    name = WebDriverWait(driver, 10).until(EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[1]')))
+                    print(name.text)
+
+                    listCourse.click()
+
                 # does not work ......
             elif cmd[0] == "back":
                 break
@@ -126,6 +144,7 @@ def CDGroups():
             EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[5]/div/a[2]')))
     finally:
         groups2.click()
+
 
 def CDCalendar():  # this is pointless, i don't even know what the itslearning calandar is for. Obviously not for scheduling.
     try:

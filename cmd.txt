@@ -2,6 +2,6 @@ cd <directory>
 list
 exit
 
-/directory
+/directory #courses
 back
 list
