@@ -107,7 +107,7 @@ def CDCourse():
                     listCourse = WebDriverWait(driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
                 finally:
-                    listCourse.click()
+                    listCourse.click() # --------------
 
                     # updates = driver.find_elements_by_tag_name("li")
                     #
@@ -118,11 +118,23 @@ def CDCourse():
                     # print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n",
                     #                                                           "\n"))  # wow this is stupid
 
-                    name = WebDriverWait(driver, 10).until(EC.presence_of_element_located(
-                        (By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[1]')))
-                    print(name.text)
 
-                    listCourse.click()
+
+                    i = 1
+                    while True:
+                        try:
+                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'
+
+                            name = WebDriverWait(driver, 5).until(EC.presence_of_element_located(
+                                (By.XPATH, path)))
+                            print("Course " + str(i) + "---------\n" + name.text)
+                        except Exception:
+                            break
+                        i = i + 1
+
+                    # //*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[13] <--- 13 is the number of courses I have
+
+                    listCourse.click() # ---------------
 
                 # does not work ......
             elif cmd[0] == "back":
