@@ -124,12 +124,13 @@ def CDCourse():  # i might make another method for inside the course resources
                     while True: # there is an error here that is refusing to return the list of courses. Solution: https://stackoverflow.com/questions/27003423/staleelementreferenceexception-on-python-selenium
 
                         path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'  # finding the specific course element
-                        if i == 14:
-                            break
                         find = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']')))
+
+                        # most stupid alternative, I don't know why it can't print out this one single stupid course
 
                         actions = ActionChains(driver)
                         actions.move_to_element(find).perform()
+
 
                         name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
                             (By.XPATH, path)))
