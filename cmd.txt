@@ -2,6 +2,7 @@ cd <directory>
 list
 exit
 
-/directory #courses
+/directory # courses
 back
 list
+click 'number' (it is the number from course list)
