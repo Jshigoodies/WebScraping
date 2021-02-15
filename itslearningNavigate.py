@@ -6,13 +6,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 import time
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 
 # setup
 PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
 driver.get("https://clearcreek.itslearning.com/")
 actions = ActionChains(driver)
-
+ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,) #This is a solution that a wished i knew earlier
 
 # login
 def start():
@@ -84,10 +86,10 @@ def CDHome():
 def CDCourse():  # i might make another method for inside the course resources
     # courses
     try:
-        courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH,
+        courses1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH,
                                                                                  '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))  # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
     finally:
-        courses.click()
+        courses1.click()
 
     try:
         courses2 = WebDriverWait(driver, 5).until(
@@ -105,10 +107,9 @@ def CDCourse():  # i might make another method for inside the course resources
             if cmd[0] == "list":
                 string = "Course: "
                 try:
-                    listCourse = WebDriverWait(driver, 5).until(
-                        EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
-                finally:
-                    listCourse.click()  # --------------
+                    listCourse1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
+
+                    listCourse1.click()  # --------------
 
                     # updates = driver.find_elements_by_tag_name("li")
                     #
@@ -118,28 +119,28 @@ def CDCourse():  # i might make another method for inside the course resources
                     #
                     # print("\n" + string.strip().replace("\n\n", "\n").replace("\n\n\n\n\n\n\n",
                     #                                                           "\n"))  # wow this is stupid
-
+                finally:
                     i = 1
-                    while True:
-                        try:
-                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
-                                i) + ']'  # finding the specific course element
+                    while True: # there is an error here that is refusing to return the list of courses. Solution: https://stackoverflow.com/questions/27003423/staleelementreferenceexception-on-python-selenium
 
-                            find = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                   '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
-                                                                                                       i) + ']')))
-                            actions.move_to_element(find).perform()
-
-                            name = WebDriverWait(driver, 5).until(EC.presence_of_element_located(
-                                (By.XPATH, path)))
-                            print("Course " + str(i) + "---------\n" + name.text)
-                        except Exception:
+                        path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'  # finding the specific course element
+                        if i == 14:
                             break
+                        find = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']')))
+
+                        actions = ActionChains(driver)
+                        actions.move_to_element(find).perform()
+
+                        name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
+                            (By.XPATH, path)))
+                        print("Course " + str(i) + "---------\n" + name.text)
+
+
                         i = i + 1
 
                     # //*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[13] <--- 13 is the number of courses I have
 
-                    listCourse.click()  # ---------------
+                    listCourse1.click()  # ---------------
                 # does not work ......
             elif cmd[0] == "back":
                 break
@@ -148,24 +149,25 @@ def CDCourse():  # i might make another method for inside the course resources
         elif len(cmd) == 2:
             if cmd[0] == "click":
                 try:
-                    listCourse = WebDriverWait(driver, 5).until(
+                    listCourse2 = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
                         EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
-                    listCourse.click()  # clicks the course tab
+                    listCourse2.click()  # clicks the course tab
 
                     # visibility issue
-                    find = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,
-                                                                                           '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
-                                                                                           cmd[1] + ']')))
+                    find = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']')))
+
+                    actions = ActionChains(driver)
                     actions.move_to_element(find).perform()
 
-                    courseClick = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,
-                                                                                              '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
-                                                                                              cmd[1] + ']/a')))
+                    courseClick = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']/a')))
+
+                    print(courseClick.text)
+
+                    courseClick.click()
+
+                    intoCourse(cmd[1])  # going into another while loop for the courses inside
                 except Exception:
                     print(f"Course # \'{cmd[1]}\' cannot be found")
-                finally:
-                    courseClick.click()
-                    intoCourse(cmd[1])  # going into another while loop for the courses inside
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
 
@@ -177,6 +179,7 @@ def intoCourse(num):
 
         if len(cmd) == 1:
             if cmd[0] == "back":
+                driver.back()
                 break
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
