@@ -59,6 +59,7 @@ def passWordMethod():
     except Exception:
         return False
 
+
 # options method
 def options():  # it's basically a list of options that the user can see
     # options
@@ -79,7 +80,8 @@ def CDHome():
     finally:
         home.click()
 
-def CDCourse(): # i might make another method for inside the course resources
+
+def CDCourse():  # i might make another method for inside the course resources
     # courses
     try:
         courses = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH,
@@ -148,18 +150,38 @@ def CDCourse(): # i might make another method for inside the course resources
                 try:
                     listCourse = WebDriverWait(driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
-                    listCourse.click() # clicks the course tab
+                    listCourse.click()  # clicks the course tab
 
                     # visibility issue
                     find = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH,
-                                                                                           '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + cmd[1] + ']')))
+                                                                                           '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
+                                                                                           cmd[1] + ']')))
                     actions.move_to_element(find).perform()
 
-                    courseClick = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + cmd[1] + ']/a')))
+                    courseClick = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,
+                                                                                              '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
+                                                                                              cmd[1] + ']/a')))
                 except Exception:
                     print(f"Course # \'{cmd[1]}\' cannot be found")
                 finally:
                     courseClick.click()
+                    intoCourse(cmd[1])  # going into another while loop for the courses inside
+        else:
+            print(f"\'{command}\' is not recognized as an internal or external command")
+
+
+def intoCourse(num):
+    while True:
+        command = input("[Navigator/Courses/" + num + "]$ ")
+        cmd = command.split(" ")
+
+        if len(cmd) == 1:
+            if cmd[0] == "back":
+                break
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
+        elif len(cmd) == 2: # do something with cmd that has the length of 2
+            pass
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
 
