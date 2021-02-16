@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-
+from selenium.common.exceptions import TimeoutException
 # setup
 PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
@@ -122,22 +122,25 @@ def CDCourse():  # i might make another method for inside the course resources
                 finally:
                     i = 1
                     while True: # there is an error here that is refusing to return the list of courses. Solution: https://stackoverflow.com/questions/27003423/staleelementreferenceexception-on-python-selenium
+                        try:
+                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'  # finding the specific course element
+                            find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']')))
 
-                        path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'  # finding the specific course element
-                        find = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']')))
+                            # most stupid alternative, I don't know why it can't print out this one single stupid course
 
-                        # most stupid alternative, I don't know why it can't print out this one single stupid course
-
-                        actions = ActionChains(driver)
-                        actions.move_to_element(find).perform()
-
-
-                        name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
-                            (By.XPATH, path)))
-                        print("Course " + str(i) + "---------\n" + name.text)
+                            actions = ActionChains(driver)
+                            actions.move_to_element(find).perform()
 
 
-                        i = i + 1
+                            name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
+                                (By.XPATH, path)))
+                            print("Course " + str(i) + "---------\n" + name.text)
+
+
+                            i = i + 1
+                        except TimeoutException:
+                            print("Done Listing")
+                            break
 
                     # //*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[13] <--- 13 is the number of courses I have
 
@@ -167,7 +170,7 @@ def CDCourse():  # i might make another method for inside the course resources
                     courseClick.click()
 
                     intoCourse(cmd[1])  # going into another while loop for the courses inside
-                except Exception:
+                except TimeoutException:
                     print(f"Course # \'{cmd[1]}\' cannot be found")
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
