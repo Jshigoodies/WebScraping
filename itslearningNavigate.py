@@ -131,7 +131,6 @@ def CDCourse():  # i might make another method for inside the course resources
                             actions = ActionChains(driver)
                             actions.move_to_element(find).perform()
 
-
                             name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
                                 (By.XPATH, path)))
                             print("Course " + str(i) + "---------\n" + name.text)
@@ -147,6 +146,7 @@ def CDCourse():  # i might make another method for inside the course resources
                     listCourse1.click()  # ---------------
                 # does not work ......
             elif cmd[0] == "back":
+                driver.back()
                 break
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
@@ -158,12 +158,12 @@ def CDCourse():  # i might make another method for inside the course resources
                     listCourse2.click()  # clicks the course tab
 
                     # visibility issue
-                    find = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']')))
+                    find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']')))
 
                     actions = ActionChains(driver)
                     actions.move_to_element(find).perform()
 
-                    courseClick = WebDriverWait(driver, 10, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']/a')))
+                    courseClick = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']/a')))
 
                     print(courseClick.text)
 
@@ -185,6 +185,16 @@ def intoCourse(num):
             if cmd[0] == "back":
                 driver.back()
                 break
+            elif cmd[0] == "list":
+                i = 2
+                while True:
+                    try:
+                        path = '//*[@id="ctl00_TopNavigationContainer"]/nav[2]/ul/li[' + str(i) + ']'
+                        findTab = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, path)))
+                        print(findTab.text)
+                        i = i + 1
+                    except TimeoutException:
+                        break
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
         elif len(cmd) == 2: # do something with cmd that has the length of 2

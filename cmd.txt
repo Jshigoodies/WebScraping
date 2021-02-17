@@ -1,8 +1,13 @@
-cd <directory>
-list
-exit
 
-/directory # courses
-back
 list
-click 'number' (it is the number from course list)
+exit #closes everything
+cd <directory>: # you have to type 'list' to see what directories there are
+    back
+    list
+        cd Courses: # I only added more stuff for the directory 'Courses'
+            back
+            list
+            click 'number' (it is the number from course list):
+                back
+                list
+# This is how far I have gotten
