@@ -9,12 +9,14 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import TimeoutException
+
 # setup
 PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
 driver.get("https://clearcreek.itslearning.com/")
 actions = ActionChains(driver)
-ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,) #This is a solution that a wished i knew earlier
+ignored_exceptions = (
+    NoSuchElementException, StaleElementReferenceException,)  # This is a solution that a wished i knew earlier
 
 # login
 def start():
@@ -87,7 +89,7 @@ def CDCourse():  # i might make another method for inside the course resources
     # courses
     try:
         courses1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH,
-                                                                                 '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))  # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
+                                                                                  '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))  # the <li> </li> html link that contains all the properties of courses such as a button and drop down menu
     finally:
         courses1.click()
 
@@ -107,7 +109,8 @@ def CDCourse():  # i might make another method for inside the course resources
             if cmd[0] == "list":
                 string = "Course: "
                 try:
-                    listCourse1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
+                    listCourse1 = WebDriverWait(driver, 5).until(
+                        EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]')))
 
                     listCourse1.click()  # --------------
 
@@ -121,20 +124,24 @@ def CDCourse():  # i might make another method for inside the course resources
                     #                                                           "\n"))  # wow this is stupid
                 finally:
                     i = 1
-                    while True: # there is an error here that is refusing to return the list of courses. Solution: https://stackoverflow.com/questions/27003423/staleelementreferenceexception-on-python-selenium
+                    while True:  # there is an error here that is refusing to return the list of courses. Solution: https://stackoverflow.com/questions/27003423/staleelementreferenceexception-on-python-selenium
                         try:
-                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']'  # finding the specific course element
-                            find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(i) + ']')))
+                            path = '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
+                                i) + ']'  # finding the specific course element
+                            find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
+                                EC.presence_of_element_located((By.XPATH,
+                                                                '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' + str(
+                                                                    i) + ']')))
 
                             # most stupid alternative, I don't know why it can't print out this one single stupid course
 
                             actions = ActionChains(driver)
                             actions.move_to_element(find).perform()
 
-                            name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located(
-                                (By.XPATH, path)))
+                            name = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
+                                EC.presence_of_element_located(
+                                    (By.XPATH, path)))
                             print("Course " + str(i) + "---------\n" + name.text)
-
 
                             i = i + 1
                         except TimeoutException:
@@ -158,12 +165,18 @@ def CDCourse():  # i might make another method for inside the course resources
                     listCourse2.click()  # clicks the course tab
 
                     # visibility issue
-                    find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']')))
+                    find = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
+                                                        cmd[1] + ']')))
 
                     actions = ActionChains(driver)
                     actions.move_to_element(find).perform()
 
-                    courseClick = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +cmd[1] + ']/a')))
+                    courseClick = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
+                        EC.presence_of_element_located((By.XPATH,
+                                                        '//*[@id="ctl00_CommonMenuRow"]/nav[1]/ul/li[3]/div/div[4]/ul/li[' +
+                                                        cmd[1] + ']/a')))
 
                     print(courseClick.text)
 
@@ -176,7 +189,8 @@ def CDCourse():  # i might make another method for inside the course resources
             print(f"\'{command}\' is not recognized as an internal or external command")
 
 
-def intoCourse(num):
+def intoCourse(
+        num):  # Right now I just thought of this. I should've put every option in a string array.... It would be easier than making hundreds and hundreds of if statements. God I'm stupid.
     while True:
         command = input("[Navigator/Courses/" + num + "]$ ")
         cmd = command.split(" ")
@@ -190,17 +204,44 @@ def intoCourse(num):
                 while True:
                     try:
                         path = '//*[@id="ctl00_TopNavigationContainer"]/nav[2]/ul/li[' + str(i) + ']'
-                        findTab = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, path)))
+                        findTab = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(
+                            EC.presence_of_element_located((By.XPATH, path)))
                         print(findTab.text)
                         i = i + 1
                     except TimeoutException:
                         break
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
-        elif len(cmd) == 2: # do something with cmd that has the length of 2
-            pass
+        elif len(cmd) == 2:  # do something with cmd that has the length of 2
+            if cmd[0] == "cd":
+                if cmd[1] == "Overview":
+                    cdOverview(num)
+
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
+
+
+def cdOverview(number):
+    try:
+        overview = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="link-dashboard"]')))
+        overview.click()
+    except TimeoutException:
+        print("Error in finding or clicking Overview, user must be clicking around the google chrome browser when not "
+              "suppose to")
+    finally:
+        while True:
+            command = input("[Navigator/Courses/" + number + "/Overview]$ ") # Just realized I could put this thing into a method. After I get the foundation down. I'll make it cleaner and more optimized.
+            cmd = command.split(" ")
+
+            if len(cmd) == 1:
+                if cmd[0] == "back":
+                    break
+                else:
+                    print(f"\'{command}\' is not recognized as an internal or external command")
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
 
 
 def CDGroups():
