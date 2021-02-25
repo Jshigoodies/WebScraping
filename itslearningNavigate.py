@@ -189,8 +189,7 @@ def CDCourse():  # i might make another method for inside the course resources
             print(f"\'{command}\' is not recognized as an internal or external command")
 
 
-def intoCourse(
-        num):  # Right now I just thought of this. I should've put every option in a string array.... It would be easier than making hundreds and hundreds of if statements. God I'm stupid.
+def intoCourse(num):  # Right now I just thought of this. I should've put every option in a string array.... It would be easier than making hundreds and hundreds of if statements. God I'm stupid.
     while True:
         command = input("[Navigator/Courses/" + num + "]$ ")
         cmd = command.split(" ")
@@ -216,7 +215,8 @@ def intoCourse(
             if cmd[0] == "cd":
                 if cmd[1] == "Overview":
                     cdOverview(num)
-
+                elif cmd[1] == "Plans":
+                    cdPlans(num)
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
         else:
@@ -237,12 +237,33 @@ def cdOverview(number):
 
             if len(cmd) == 1:
                 if cmd[0] == "back":
+                    driver.back()
                     break
                 else:
                     print(f"\'{command}\' is not recognized as an internal or external command")
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
 
+def cdPlans(number):
+    try:
+        plans = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="link-planner"]')))
+        plans.click()
+    except TimeoutException:
+        print("Error in finding or clicking Overview, user must be clicking around the google chrome browser when not "
+              "suppose to")
+    finally:
+        while True:
+            command = input("[Navigator/Courses/" + number + "/Plans]$ ") # Just realized I could put this thing into a method. After I get the foundation down. I'll make it cleaner and more optimized.
+            cmd = command.split(" ")
+
+            if len(cmd) == 1:
+                if cmd[0] == "back":
+                    driver.back()
+                    break
+                else:
+                    print(f"\'{command}\' is not recognized as an internal or external command")
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
 
 def CDGroups():
     try:

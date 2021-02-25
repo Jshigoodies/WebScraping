@@ -10,4 +10,6 @@ cd <directory>: # you have to type 'list' to see what directories there are
             click 'number' (it is the number from course list):
                 back
                 list
+                cd <directory>: #Overview, Resources, Plan
+                    back
 # This is how far I have gotten
