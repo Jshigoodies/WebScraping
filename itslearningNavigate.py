@@ -217,6 +217,10 @@ def intoCourse(num):  # Right now I just thought of this. I should've put every 
                     cdOverview(num)
                 elif cmd[1] == "Plans":
                     cdPlans(num)
+                elif cmd[1] == "Resources":
+                    cdResources(num)
+                else:
+                    print(f"\'{command}\' is not recognized as an internal or external command")
             else:
                 print(f"\'{command}\' is not recognized as an internal or external command")
         else:
@@ -239,6 +243,14 @@ def cdOverview(number):
                 if cmd[0] == "back":
                     driver.back()
                     break
+                elif cmd[0] == "tasks":
+                    try:
+                        actions = ActionChains(driver)
+                        # actions.move_to_element("find some element here")
+                        # For some reason they can't find the elements, I'll look into it later.
+                    except TimeoutException:
+                        print("Error with Browser")
+                    # I'm not going further because apparently there are 3 different types of tasks. I only have 1 of them. I ask teacher.
                 else:
                     print(f"\'{command}\' is not recognized as an internal or external command")
             else:
@@ -254,6 +266,27 @@ def cdPlans(number):
     finally:
         while True:
             command = input("[Navigator/Courses/" + number + "/Plans]$ ") # Just realized I could put this thing into a method. After I get the foundation down. I'll make it cleaner and more optimized.
+            cmd = command.split(" ")
+
+            if len(cmd) == 1:
+                if cmd[0] == "back":
+                    driver.back()
+                    break
+                else:
+                    print(f"\'{command}\' is not recognized as an internal or external command")
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
+
+def cdResources(number):
+    try:
+        resources = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="link-resources"]')))
+        resources.click()
+    except TimeoutException:
+        print("Error in finding or clicking Overview, user must be clicking around the google chrome browser when not "
+              "suppose to")
+    finally:
+        while True:
+            command = input("[Navigator/Courses/" + number + "/Resources]$ ") # Just realized I could put this thing into a method. After I get the foundation down. I'll make it cleaner and more optimized.
             cmd = command.split(" ")
 
             if len(cmd) == 1:
