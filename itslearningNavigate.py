@@ -245,9 +245,8 @@ def cdOverview(number):
                     break
                 elif cmd[0] == "tasks":
                     try:
-                        actions = ActionChains(driver)
-                        # actions.move_to_element("find some element here")
-                        # For some reason they can't find the elements, I'll look into it later.
+                        taskButton = driver.find_elements_by_xpath('//*[@id="tasklist2_section-0__list"]/li/a/div[1]/div')
+                        taskButton.click()
                     except TimeoutException:
                         print("Error with Browser")
                     # I'm not going further because apparently there are 3 different types of tasks. I only have 1 of them. I ask teacher.
