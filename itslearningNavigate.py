@@ -243,13 +243,16 @@ def cdOverview(number):
                 if cmd[0] == "back":
                     driver.back()
                     break
+                # elif cmd[0] == "tasks": # I gave up
+                #     try:
+                #         taskButton = driver.find_elements_by_class_name("tasklist2__task") #
+                #         for x in taskButton:
+                #             print(x.text + "\n")
+                #     except TimeoutException:
+                #         print("Error with Browser")
+                #     # I'm not going further because apparently there are 3 different types of tasks. I only have 1 of them. I ask teacher.
                 elif cmd[0] == "tasks":
-                    try:
-                        taskButton = driver.find_elements_by_xpath('//*[@id="tasklist2_section-0__list"]/li/a/div[1]/div')
-                        taskButton.click()
-                    except TimeoutException:
-                        print("Error with Browser")
-                    # I'm not going further because apparently there are 3 different types of tasks. I only have 1 of them. I ask teacher.
+                    actions = ActionChains(driver) # try 2
                 else:
                     print(f"\'{command}\' is not recognized as an internal or external command")
             else:
