@@ -22,7 +22,7 @@ ignored_exceptions = (
     NoSuchElementException, StaleElementReferenceException,)  # This is a solution that a wished i knew earlier
 
 log = Log(driver)
-
+#driver.set_window_size(1080, 800)
 
 # options method
 def options():  # it's basically a list of options that the user can see
@@ -150,12 +150,24 @@ def CDCourse():  # i might make another method for inside the course resources
 
 
 def intoCourse(num):  # Right now I just thought of this. I should've put every option in a string array.... It would be easier than making hundreds and hundreds of if statements. God I'm stupid.
+    # Every fking course starts at overview or resources or plans, or something different. Not one course can start in the same tab!
+    try:
+        variables = driver.find_elements_by_class_name("l-main-menu-lnk")
+        variables[-1].click() #this is stupid
+
+        reportTab = WebDriverWait(driver, 5, ignored_exceptions=ignored_exceptions).until(EC.presence_of_element_located((By.XPATH, '//*[@id="link-360reports"]')))
+        reportTab.click()
+
+    except TimeoutException:
+        print("Error with starting point")
+
     while True:
         command = input("[Navigator/Courses/" + num + "]$ ")
         cmd = command.split(" ")
 
         if len(cmd) == 1:
             if cmd[0] == "back":
+                driver.back()
                 driver.back()
                 break
             elif cmd[0] == "list":
