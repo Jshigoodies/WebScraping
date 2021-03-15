@@ -10,7 +10,10 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import TimeoutException
 
+from MyClass import Log
+
 # setup
+
 PATH = "Driver\chromedriver.exe"  # might need to edit this pathway for other users than me
 driver = webdriver.Chrome(PATH)
 driver.get("https://clearcreek.itslearning.com/")
@@ -18,50 +21,7 @@ actions = ActionChains(driver)
 ignored_exceptions = (
     NoSuchElementException, StaleElementReferenceException,)  # This is a solution that a wished i knew earlier
 
-# login
-def start():
-    # action chain for logging in
-    # actionClick = ActionChains(driver) # I'll use this later
-    print("[Navigator]$", driver.title.upper())
-
-    loginButton = driver.find_element_by_id("ctl00_ContentPlaceHolder1_federatedLoginWrapper")
-    loginButton.click()
-
-
-# username
-def userMethod():
-    username = input("[Navigator]$ Please Enter Student ID: ")
-    username = username + "@ccisd.net"
-    try:
-        userLoginInput = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "i0116")))
-    finally:
-        userLoginInput.send_keys(username)
-        userLoginInput.send_keys(Keys.ENTER)
-
-    try:
-        Error = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "usernameError")))
-        print("[Navigator]$ Email Does not Exist")
-        userLoginInput.clear()
-        return True
-    except Exception:
-        return False
-
-
-# password
-def passWordMethod():
-    password = input("[Navigator]$ Please Enter Password: ")
-    try:
-        userLoginInputPassword = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "i0118")))
-    finally:
-        userLoginInputPassword.send_keys(password)
-        userLoginInputPassword.send_keys(Keys.ENTER)
-
-    try:
-        Error = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.ID, "passwordError")))
-        print("[Navigator]$ Password Or Email is Wrong \n[Navigator]$ Restarting...")
-        return True
-    except Exception:
-        return False
+log = Log(driver)
 
 
 # options method
@@ -327,13 +287,13 @@ loop = True
 loop2 = True
 loop3 = True
 
-start()
+log.start()
 while loop:
     while loop2:
-        if not userMethod():
+        if not log.userMethod():
             loop2 = False
     while loop3:
-        if not passWordMethod():
+        if not log.passWordMethod():
             loop3 = False
         else:
             driver.back()

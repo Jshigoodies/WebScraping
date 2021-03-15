@@ -12,4 +12,12 @@ cd <directory>: # you have to type 'list' to see what directories there are
                 list
                 cd <directory>: #Overview, Resources, Plan
                     back
+
+                    Overview:
+                        back
+                        tasks  # work in progress
+                    Resources:
+                        back
+                    Plan:
+                        back
 # This is how far I have gotten
