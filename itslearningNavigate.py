@@ -145,6 +145,8 @@ def CDCourse():  # i might make another method for inside the course resources
                     intoCourse(cmd[1])  # going into another while loop for the courses inside
                 except TimeoutException:
                     print(f"Course # \'{cmd[1]}\' cannot be found")
+            else:
+                print(f"\'{command}\' is not recognized as an internal or external command")
         else:
             print(f"\'{command}\' is not recognized as an internal or external command")
 
@@ -224,7 +226,8 @@ def cdOverview(number):
                 #         print("Error with Browser")
                 #     # I'm not going further because apparently there are 3 different types of tasks. I only have 1 of them. I ask teacher.
                 elif cmd[0] == "tasks":
-                    actions = ActionChains(driver) # try 2
+                    # try 2
+                    pass
                 else:
                     print(f"\'{command}\' is not recognized as an internal or external command")
             else:
