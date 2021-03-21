@@ -18,7 +18,7 @@ status = ["Dead", "I feel the power of Anime", ":D :D :D"]
 
 @tasks.loop(seconds=20)
 async def change_status():
-    await client.change_presence(activity=discord.Game(choice(status)))
+    await client.change_presence(activity=discord.Game(random.choice(status)))
 
 @client.command()
 async def clear(ctx, amount=2):
