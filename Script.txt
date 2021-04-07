@@ -1,0 +1,53 @@
+Hi my name is Jason Shi
+This is my Independent Study Project
+So what have used is a python package called selenium
+How did I learn this?
+The documentation and videos, which were really easy to understand
+and Stack Overflow was really helpful to find solutions and overall create a webscraping application for itslearning
+So let's get started.
+______________
+www.itslearning.com  //something like that
+When you want to open itslearning,
+You first have to login.
+So what you usually do is just type in your username and password and click the login button
+Taking that into mind
+I need selenium to type in these text boxes and click the login button
+So i do ctrl + i
+//finds element for text box
+As you can see these elements have an id inside.
+There are other parts in the elements like class name, tag name, text, or even by CSS.
+But the most specific and accurate an elements is by id.
+In this case both text boxes have ids'
+If i type the wrong username, i can just find the red text, which is a html element, if it is present, i type my username again.
+
+I then realized the first major error for logging into itslearning.
+People could type in the wrong email but it can still be an existing email.
+
+Usernames are only made up of only numbers. So you could accidently type the wrong email while it accepts it as an actual email.
+
+The solution was the red text that appeared if i typed it wrong, so I just type it again but it happens for the password too.
+
+________________________________
+Now that i'm logged into itslearning, what I wanted to do next is to list out the options.
+<show the code for def options()>
+I was stil a novice back then, but this was a solution i came up with.
+Since the tab bar up here has Home, Courses, Calendar etc.
+I ctrl + i and noticed they all have li tags in them.
+So i got the li tags and put them in a array
+For each looped it
+And for some reason the Text Home, Courses, Calendar had like 50 next lines in them.
+So i fixed that with string methods such as strip and replace
+
+__________________
+so now that i have a list, I want to click the specific tabs, it is simply just finding the element and tell selenium to click on it, easy as that
+I made a separate method for each tab to click each specific category.
+____________________
+Now these categories i did not really care about, they don't have any useful information.
+So I mainly worked on the courses tab.
+______________________
+
+
+
+
+
+
