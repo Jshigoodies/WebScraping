@@ -1,14 +1,13 @@
 Hi my name is Jason Shi
 This is my Independent Study Project
-So what have used is a python package called selenium
-How did I learn this?
-The documentation and videos, which were really easy to understand
-and Stack Overflow was really helpful to find solutions and overall create a webscraping application for itslearning
-So let's get started.
+So what is webscraping, in a nutshell, it's just getting information from websites, or at least that's what i did.
+So in order to do that, i used is a python package called selenium
+you just pip install it.
 ______________
 www.itslearning.com  //something like that
-When you want to open itslearning,
-You first have to login.
+So my goal was to get information from itslearning.
+But first
+You have to login.
 So what you usually do is just type in your username and password and click the login button
 Taking that into mind
 I need selenium to type in these text boxes and click the login button
@@ -18,6 +17,7 @@ As you can see these elements have an id inside.
 There are other parts in the elements like class name, tag name, text, or even by CSS.
 But the most specific and accurate an elements is by id.
 In this case both text boxes have ids'
+Selenium has a 'Keys' class which basically uses strings to type into a text box.
 If i type the wrong username, i can just find the red text, which is a html element, if it is present, i type my username again.
 
 I then realized the first major error for logging into itslearning.
@@ -28,8 +28,18 @@ Usernames are only made up of only numbers. So you could accidently type the wro
 The solution was the red text that appeared if i typed it wrong, so I just type it again but it happens for the password too.
 
 ________________________________
-Now that i'm logged into itslearning, what I wanted to do next is to list out the options.
+Now that i'm logged into itslearning,
+I have the console showing i can type stuff into here input.
+I'm not really going to go over how the inputs and error handling works. it's just a lot of if, else if, else statments, and while loops.
+Overall, i covered the errors if i type something wrong.
+
+And the reason why I put "navigator" is because: just like how command prompt has C:\Users\Jshi
+i wanted to do the same concept.
+
+So, what I wanted to do first is to list out the options.
+in cmd, you can just type dir or type ls to list out the directories, so i wanted to do something similar
 <show the code for def options()>
+
 I was stil a novice back then, but this was a solution i came up with.
 Since the tab bar up here has Home, Courses, Calendar etc.
 I ctrl + i and noticed they all have li tags in them.
@@ -39,12 +49,94 @@ And for some reason the Text Home, Courses, Calendar had like 50 next lines in t
 So i fixed that with string methods such as strip and replace
 
 __________________
-so now that i have a list, I want to click the specific tabs, it is simply just finding the element and tell selenium to click on it, easy as that
+so now that i have a list, I want to click the specific tabs, 
+it is simply just finding the element and tell selenium to click on it, easy as that
 I made a separate method for each tab to click each specific category.
 ____________________
-Now these categories i did not really care about, they don't have any useful information.
+I can navigate towards each tab.
+Now these categories i did not really care about, they don't have any useful information except the courses category.
 So I mainly worked on the courses tab.
 ______________________
+so 'cd Courses'
+What I wanted to do next is to list out the courses.
+I couldn't get the elements here to work, so i decided to use the drop down menu to list out the courses.
+Again, they were simple enough, but this was when I learned x path.
+It's easier to explain x path if i do
+ctrl + i
+copy x path
+and paste it into a note pad
+
+As you can see, it is literally showing where to go to find this specific element.
+If i copy another one, they are similar, but the only thing that is different is the number at the very end.
+So i made a while loop that changes only that number.
+But then i have to ask myself the question: "when will it stop?"
+
+I found a common selenium exception where it throws a TimeOutException error if an element cannot be found.
+So i used try and except.
+I have 13 Courses, including the NHS, Libaray, and other stuff that nobody checks.
+
+so <in notepad> i can change this number 1.. 2.. 3.... 4... 5.. and all the way to 14.
+
+what happens at index 14, it will try to find the 14th course, but when it can't find it, 
+it skips the try block and goes into the except block and breaks out of the while loop.
+________________________
+
+Now I ran into a major error when trying to scrape information, specifically the courses.
+Everything runs fine for the first '5?' courses
+but selenium can only get the first '5?' because they are visible.
+The rest are invisible and the result is blank text.
+
+This was when I learned a new method called Action Chains to fix this problem.
+Action Chain are literally a chain of actions.
+They can do things like drag and drop, open new tabs, double click, delete tabs, but most importatnly, it can find elements.
+so when i make a obj from the class Action Chains, 
+i can tell it to perform double click on the link and in that link, open the image in a new tab.
+That is one object of an Action Chain.
+So when i make the object, i ask it to find the elements to make them visible.
+once they are visible, selenium can see the element and instead of return blank text, 
+it will now return something for the rest of the courses
+_____________________________
+so now i have a list of courses, i can input 'click <some number>' and it will find that element.
+this still uses action chain and selenium clicking on the element.
+_________
+what i wanted to do next was list out the tabs here: Overview, Plans, Resrouces, etc.
+again, i can just ctrl + i, find what the elements are and just list them out.
+
+I can 'cd' these categories fine(hover mouse over it) .
+After i have gotten this far, I couldn't go back, in cmd, you could do cd ..
+so i found a method in selenium where it just presses the back button like this one in chrome.
+That is literally all it is
+Although, i ran into a problem when testing for errors.
+
+every course automatically go into different tabs, some will just automatically go to overview, some will just go to resources automatically.
+The reason why this was a problem is here
+the path the naviagtor shows is inaccurate if i decided to go to the same directory
+and then type 'back'
+I should be in course <number>
+but i'm in the courses tab instead.
+
+Again i'll show it to you.
+
+So I fixed it by making every course automatically going into the 360 report tab, because no course would ever go there.
+So this make everything consistent and won't throw an error in my code.
+___________________
+
+So that's pretty much everything I have.
+
+The main thing i want you to takeaway from this is the logical thinking.
+It honestly helped a lot especially developing solutions for errors i've faced.
+You need to experiment and ask questions to yourself.
+
+Another thing to take away from this is to learn.
+The documentation and tutorial videos made things really easy to understand
+and Stack Overflow was really helpful to open possibilities i never considered and overall create a webscraping application for itslearning
+This way, I've learned a lot. I found easier methods, algorithms, and other ways to get information from sites compared to when I started out.
+There is nothing wrong with being stressed out and not knowing what to do. That is part of the learning process.
+Giving up is probably the worst thing to do, because i would not have gotten this far.
+_______________________
+
+Thanks for watching and i hope this was helpful
+Peace out
 
 
 
